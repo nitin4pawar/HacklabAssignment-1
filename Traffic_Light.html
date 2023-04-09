@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+  background: black;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+#red-button {
+  background: red;
+}
+
+#yellow-button {
+  background: yellow;
+}
+
+#green-button {
+  background: green;
+}
+
+    </style>
+</head>
+<body>
+    <button id="red-button" onclick="changeState('red')">Red</button>
+<button id="yellow-button" onclick="changeState('yellow')">Yellow</button>
+<button id="green-button" onclick="changeState('green')">Green</button>
+
+<script>
+//Set initial state to Red
+let state = "Red";
+
+
+// Activate Red button
+function activateRed() {
+  document.getElementById("red-button").style.background = "red";
+}
+
+// Deactivate Red button
+function deactivateRed() {
+  document.getElementById("red-button").style.background = "black";
+}
+
+// Activate Yellow button
+function activateYellow() {
+  document.getElementById("yellow-button").style.background = "yellow";
+}
+
+// Deactivate Yellow button
+function deactivateYellow() {
+  document.getElementById("yellow-button").style.background = "black";
+}
+
+// Activate Green button
+function activateGreen() {
+  document.getElementById("green-button").style.background = "green";
+}
+
+// Deactivate Green button
+function deactivateGreen() {
+  document.getElementById("green-button").style.background = "black";
+}
+
+
+function changeState(button) {
+  switch (button) {
+    case "red":
+      state = "Red";
+      activateRed();
+      deactivateYellow();
+      deactivateGreen();
+      // Cancel any pending transitions
+      clearTimeout(timerID);
+      break;
+    case "green":
+      if (state === "Yellow") {
+        // If in Yellow state, transition to Red before transitioning to Green
+        state = "Red";
+        activateRed();
+        deactivateYellow();
+        // Wait for 5 seconds before transitioning to Green
+        timerID = setTimeout(() => {
+          state = "Green";
+          activateGreen();
+          deactivateRed();
+        }, 5000);
+      } else {
+        // If in any other state, transition directly to Green
+        state = "Green";
+        activateGreen();
+        deactivateRed();
+        deactivateYellow();
+        // Wait for 20 seconds before transitioning to Red
+        timerID = setTimeout(() => {
+          state = "Red";
+          activateRed();
+          deactivateGreen();
+        }, 20000);
+      }
+      break;
+    case "yellow":
+      state = "Yellow";
+      activateYellow();
+      deactivateRed();
+      deactivateGreen();
+      // Wait for 15 seconds before transitioning to Red
+      timerID = setTimeout(() => {
+        state = "Red";
+        activateRed();
+        deactivateYellow();
+      }, 15000);
+      break;
+  }
+}
+
+</script>
+</body>
+</html>
